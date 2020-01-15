@@ -1,9 +1,9 @@
 import unittest
 import struct
-from storage import storage
+from writer import Writer
 class MyTestCase(unittest.TestCase):
     def test_storage_write(self):
-        s = storage()
+        s = Writer()
 
         s.active_file.seek(0)
         bytes = s.active_file.read(4)

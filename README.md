@@ -1,7 +1,5 @@
 # Bencask
 
-
-
 ### ideas 
 The idea is from Bitcask.
 

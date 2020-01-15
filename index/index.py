@@ -1,9 +1,9 @@
 
-from storage.storage import storage
+from storage.writer import Writer
 class index():
     def __init__(self):
         self.__idx = {}
-        self.sto = storage()
+        self.sto = Writer()
 
 
     def get(self, key):
