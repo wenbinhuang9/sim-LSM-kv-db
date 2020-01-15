@@ -10,6 +10,8 @@ class Bencaskhandler():
         handler = Bencaskhandler(directory_name)
         return handler
 
+    def set(self, key, value):
+        return self.service.set(key, value)
     def get(self, key):
         return self.service.get(key)
 
@@ -21,7 +23,7 @@ class Bencaskhandler():
         return self.service.delete(key)
 
     def merge(self):
-        pass
+        return self.service.compact("active")
 
     def close(self):
         pass

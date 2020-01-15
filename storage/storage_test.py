@@ -1,6 +1,6 @@
 import unittest
 import struct
-from writer import Writer
+from storage import Writer
 class MyTestCase(unittest.TestCase):
     def test_storage_write(self):
         s = Writer()

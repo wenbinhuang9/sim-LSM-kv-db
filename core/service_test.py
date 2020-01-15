@@ -1,6 +1,6 @@
 import unittest
 
-from service.service import Service
+from core.service import Service
 class MyTestCase(unittest.TestCase):
     def test_service(self):
         s = Service()
