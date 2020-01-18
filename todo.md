@@ -1,18 +1,23 @@
 
-0. how to init after restarting
-0.1 deleting old file after compaction
-3. given it as a library. 
+0.0 refactor the code, implement each function with the smallest core 
 
+0.1 using hint index 
+
+3. implement it as a library 
+
+3.1 think about concurrency control 
 
 1. how to implement a merge:
     1.1 what's the size for each file
     1.2 when touching the merge
     1.3 when deleting the unnecessary old file 
-    
-4. multiple segments 
-    
 
-
+concurrency control in the upper level for writing 
 
 deal with client server model
     (client server model, or just a library? )
+
+
+#### 4 code optimization
+
+#### 5 think about the test case 

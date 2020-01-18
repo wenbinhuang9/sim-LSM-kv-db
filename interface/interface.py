@@ -15,15 +15,11 @@ class Bencaskhandler():
     def get(self, key):
         return self.service.get(key)
 
-
-    def put(self, key, val):
-        return self.service.set(key, val)
-
     def delete(self, key):
         return self.service.delete(key)
 
     def merge(self):
-        return self.service.compact("active")
+        return self.service.merge()
 
     def close(self):
-        pass
+        self.service.close()
