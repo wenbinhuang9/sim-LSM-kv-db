@@ -1,4 +1,12 @@
 
+
+adding log framework here 
+
+go to ensure whether existing a concurrency problem 
+
+test what happens when multiple reading and one writing in concurrency 
+
+
 0.0 refactor the code, implement each function with the smallest core 
 
 0.1 using hint index 

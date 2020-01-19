@@ -1,5 +1,5 @@
 from core import record
-from storage.storage import Writer, Reader
+from storage.storage import Storage, Reader
 from index.index import index
 import os
 import struct
@@ -25,7 +25,7 @@ class Service:
     def __init__(self, directory_name):
         self.directory_name = directory_name
         self.serializer = Serialized()
-        self.sto = Writer(directory_name)
+        self.sto = Storage(directory_name)
         self.idx = index(self.sto)
         self.init_data()
 

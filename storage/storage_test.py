@@ -1,11 +1,11 @@
 import unittest
 import struct
-from storage import Writer
+from storage import Storage
 class MyTestCase(unittest.TestCase):
     def test_storage_write(self):
         directory_name = "/Users/ben/Wenbin_GitHub/Bencask/file"
 
-        s = Writer(directory_name)
+        s = Storage(directory_name)
 
         ans = s.get_segment_file_list()
 

@@ -1,5 +1,5 @@
 from core import record
-from storage.storage import Writer
+from storage.storage import Storage
 class index():
     def __init__(self, writer):
         self.__idx = {}
