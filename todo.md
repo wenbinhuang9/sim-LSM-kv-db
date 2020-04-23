@@ -1,5 +1,3 @@
-
-
 adding log framework here 
 
 go to ensure whether existing a concurrency problem 
@@ -17,8 +15,8 @@ test what happens when multiple reading and one writing in concurrency
 
 1. how to implement a merge:
     1.1 what's the size for each file
-    1.2 when touching the merge
-    1.3 when deleting the unnecessary old file 
+    1.2 when touching the merge (when file too large )
+    1.3 when deleting the unnecessary old file  (when finishing merging)
 
 concurrency control in the upper level for writing 
 
@@ -28,4 +26,7 @@ deal with client server model
 
 #### 4 code optimization
 
-#### 5 think about the test case 
+#### 5 think about the test case
+
+a modification on bitcask, what if too many keys , mem not enough?
+ 

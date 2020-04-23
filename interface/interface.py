@@ -1,13 +1,13 @@
 ## a state handler
 from core.service import Service
 
-class Bencaskhandler():
+class SimKV():
     def __init__(self, directory_name):
         self.directory_name = directory_name
         self.service = Service(directory_name)
 
     def open(self, directory_name):
-        handler = Bencaskhandler(directory_name)
+        handler = SimKV(directory_name)
         return handler
 
     def set(self, key, value):

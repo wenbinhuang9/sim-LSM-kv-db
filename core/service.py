@@ -1,5 +1,5 @@
 from core import record
-from storage.storage import Storage, Reader
+from storage.storage import Storage, Reader, get_old_segment_file_list, get_segment_file_list
 from index.index import index
 import os
 import struct
@@ -77,10 +77,13 @@ class Service:
         self.idx.delete(key)
 
     def merge(self):
-        old_file_list = self.sto.get_old_segment_file_list()
+        old_file_list = get_old_segment_file_list(self.sto.directory_name)
 
-        merge_file_handler =self.sto.create_merge_file()
-        for file in old_file_list:
+        newest_of_oldest = old_file_list[-1] + "_merge"
+        newest_to_oldest_list = old_file_list[::-1]
+        merge_file_handler =self.sto.create_merge_file(newest_of_oldest)
+
+        for file in newest_to_oldest_list:
             reader = Reader(self.directory_name, file)
             while reader.hash_next():
                 key_bytes, value_bytes, value_len, val_offset, tstamp = reader.read()
@@ -92,7 +95,9 @@ class Service:
                 if tstamp == tstamp_in_mem and value != tomb_stone:
                     ## todo does here has a problem of concurrency?
                     self.set(key,value, merge_file_handler)
-            os.remove(self.directory_name +"/" + file)
+
+        for file in newest_to_oldest_list:
+            os.remove(self.directory_name + "/" + file)
 
         return True
 

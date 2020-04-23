@@ -1,12 +1,11 @@
 import os
-import io
 import struct
 import time
 from os import walk
-from threading import Lock
 
 from core import record
-from new_storage import  FileHandler
+from new_storage import FileHandler
+
 
 class FileHandlerPool():
     def __init__(self, direcotry_name):
@@ -26,29 +25,29 @@ class FileHandlerPool():
             handler.close()
 
 
+def get_old_segment_file_list(dir):
+    all_file = get_segment_file_list(dir)
+    return all_file[:-1]
+
+def get_segment_file_list(dir):
+    ans = []
+    for (dirpath, dirnames, filenames) in walk(dir):
+        ans.extend(filenames)
+    ## from older to newer
+    ans.sort()
+    return ans
+
 class Storage():
     def __init__(self, directory_name):
         self.__default_max_file_size = 1024 * 4
         self.directory_name = directory_name
         self.active_file_handler = None
         self.file_handler_pool = FileHandlerPool(self.directory_name)
-    ## todo check
-    def get_old_segment_file_list(self):
-        all_file = self.get_segment_file_list()
-        return all_file[:-1]
-
-    def get_segment_file_list(self):
-        ans = []
-        for (dirpath, dirnames, filenames) in walk(self.directory_name):
-            ans.extend(filenames)
-        ## from older to newer
-        ans.sort()
-        return ans
 
 
     ## todo need? concurrent control ?
     def init_data(self):
-        file_list = self.get_segment_file_list()
+        file_list = get_segment_file_list(self.directory_name)
 
         for file in file_list:
             self.file_handler_pool.set(file)
@@ -82,11 +81,13 @@ class Storage():
             return self.create_active_file()
         return self.active_file_handler
 
-    def create_merge_file(self):
-        new_segment_name = self.__create_segment_name()
-        handler = self.file_handler_pool.set(new_segment_name, "w+")
+    def create_merge_file(self, filename = None):
+        if filename == None:
+            filename = self.__create_segment_name()
+        handler = self.file_handler_pool.set(filename, "w+")
 
         return handler
+
 
     def create_active_file(self):
         new_segment_name = self.__create_segment_name()

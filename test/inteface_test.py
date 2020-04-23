@@ -1,12 +1,14 @@
 import threading
 import unittest
 
-from interface.interface import Bencaskhandler
+from interface.interface import SimKV
+from  storage.storage import get_segment_file_list
 import  random
+
 class MyTestCase(unittest.TestCase):
     def test_batch_set(self):
-        directory_name = "/Users/ben/Wenbin_GitHub/Bencask/file"
-        handler = Bencaskhandler(directory_name)
+        directory_name = "/Users/ben/Wenbin_GitHub/simkv/file"
+        handler = SimKV(directory_name)
 
         for i in range(2000):
             handler.set("hello" + str(i), "world" + str(i))
@@ -17,8 +19,8 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual(val == ("world" + str(i)), True)
 
     def test_set_and_override(self):
-        directory_name = "/Users/ben/Wenbin_GitHub/Bencask/file"
-        handler = Bencaskhandler(directory_name)
+        directory_name = "/Users/ben/Wenbin_GitHub/simkv/file"
+        handler = SimKV(directory_name)
         key = "hello"
         final_val = "world" + str(1999)
         for i in range(2000):
@@ -27,8 +29,8 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(handler.get(key) == final_val, True)
 
     def test_set_and_delete(self):
-        directory_name = "/Users/ben/Wenbin_GitHub/Bencask/file"
-        handler = Bencaskhandler(directory_name)
+        directory_name = "/Users/ben/Wenbin_GitHub/simkv/file"
+        handler = SimKV(directory_name)
 
         for i in range(2000):
             handler.set("hello" + str(i), "world" + str(i))
@@ -45,8 +47,8 @@ class MyTestCase(unittest.TestCase):
 
 
     def test_multi_read_in_concurrency(self):
-        directory_name = "/Users/ben/Wenbin_GitHub/Bencask/file"
-        handler = Bencaskhandler(directory_name)
+        directory_name = "/Users/ben/Wenbin_GitHub/simkv/file"
+        handler = SimKV(directory_name)
 
         basic_key = "reader"
 
@@ -74,6 +76,31 @@ class MyTestCase(unittest.TestCase):
         thread2.join()
 
         print("Done")
+
+
+    def test_get_segment_file_list(self):
+        dir_list = get_segment_file_list("./file")
+        correct_ans = ['segment100', 'segment102_merge', 'segment200']
+
+        self.assertEqual(all([correct_ans[i] == dir_list[i] for i in range(len(dir_list))]), True)
+
+
+    def test_merge(self):
+        dir = "./dir_for_merge_test"
+        handler = SimKV(dir)
+
+        key = "hello"
+        len = 5000
+        for i in range(len):
+            handler.set(key, "world" + str(i))
+
+        val = handler.get(key)
+        self.assertEqual(val ==  "world" + str(len - 1), True)
+
+        handler.merge()
+
+        val = handler.get(key)
+        self.assertEqual(val == "world" + str(len - 1), True)
 
 if __name__ == '__main__':
     unittest.main()
