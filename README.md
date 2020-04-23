@@ -1,4 +1,4 @@
-# Bencask
+# Simple key value db
 
 ### ideas 
 The idea is from Bitcask.
