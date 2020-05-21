@@ -1,8 +1,11 @@
 ## a state handler
+import  os
 from core.service import Service
 
 class SimKV():
     def __init__(self, directory_name):
+        if os.path.exists(directory_name) == False:
+            os.mkdir(directory_name)
         self.directory_name = directory_name
         self.service = Service(directory_name)
 

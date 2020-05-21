@@ -4,7 +4,7 @@ import unittest
 from interface.interface import SimKV
 from  storage.storage import get_segment_file_list
 import  random
-
+import  os
 class MyTestCase(unittest.TestCase):
     def test_batch_set(self):
         directory_name = "/Users/ben/Wenbin_GitHub/simkv/file"
@@ -101,6 +101,25 @@ class MyTestCase(unittest.TestCase):
 
         val = handler.get(key)
         self.assertEqual(val == "world" + str(len - 1), True)
+
+    def test_reload(self):
+        dir = "./reload_test"
+        handler = SimKV(dir)
+        key = "hello"
+        len = 5000
+        for i in range(len):
+            handler.set(key + str(i), "world" + str(i))
+
+        handler.close()
+
+        newHandler = SimKV(dir)
+
+        for i in range(len):
+            curKey = key + str(i)
+
+            val = newHandler.get(curKey)
+            self.assertEqual(val == "world" + str(i), True)
+
 
 if __name__ == '__main__':
     unittest.main()
