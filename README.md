@@ -15,6 +15,7 @@ key = "hello"
 val = "world"
 db.set(key, val)
 db.get(key)
+db.delete(key)
 ```
 
 ## reference 
