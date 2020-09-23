@@ -1,9 +1,21 @@
 # Simple key value db
-This is a simpel key value databse system with low latency per item read and write, high throughput for
-writing, ability to handle datasets larger than RAM without degradation and fast crash recovery. The idea is from Bitcask. 
+This is a simpel key value databse system with the following advantages 
+
+- low latency per item read and write
+- high throughput for writing, ability to handle datasets larger than RAM without degradation 
+- fast crash recovery.
 
 
+## how to use 
+```python
+dbFile = "~/hello_word"
+db = SimKV(dbFile)
 
+key = "hello"
+val = "world"
+db.set(key, val)
+db.get(key)
+```
 
 ## reference 
  
